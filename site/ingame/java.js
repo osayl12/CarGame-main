@@ -35,6 +35,7 @@ const container = document.querySelector(".max-area");
 const fuelDisplay = document.querySelector(".fuel-percentage");
 const healthDisplay = document.querySelector(".health-bar");
 const mysteryBox = document.getElementById("mystery-box");
+mysteryBox.style.display = "none";
 const popupEl = document.getElementById("popup-message");
 const audioEl = document.getElementById("gameMusic");
 
@@ -106,6 +107,7 @@ function startCountdown() {
       clearInterval(interval);
       overlay.style.display = "none";
       gameStarted = true;
+      setTimeout(showMysteryBox, 5000);
     }
   }, 1000);
 }
@@ -168,10 +170,6 @@ function activateRandomPowerUp() {
 
   if (chosen === "heal") {
     setHealth(health + 30);
-  }
-
-  if (chosen === "heal") {
-    setHealth(health + 30);
     animateHealEffect();
   }
 
@@ -181,6 +179,11 @@ function activateRandomPowerUp() {
 
   if (chosen === "shield") {
     activateShield();
+  }
+
+  if (chosen === "fuel") {
+    increaseFuel();
+    animateFuelEffect();
   }
 }
 function animateHealEffect() {
@@ -293,15 +296,14 @@ document.addEventListener("keydown", (e) => {
 
   if (k === "q" && mysteryBoxIsVisible()) {
     setHealth(health + 30);
+    animateHealEffect();
+    removeMysteryBox();
+  } else if (k === "e" && mysteryBoxIsVisible()) {
+    fuel = Math.min(100, fuel + 20);
+    animateFuelRefill();
     removeMysteryBox();
   } else if (mysteryBoxIsVisible()) {
     activateRandomPowerUp();
-    removeMysteryBox();
-  }
-
-  if (k === "e" && mysteryBoxIsVisible()) {
-    fuel = Math.min(100, fuel + 20);
-    animateFuelRefill();
     removeMysteryBox();
   }
 
@@ -447,9 +449,6 @@ function mysteryBoxIsVisible() {
   );
 }
 
-function removeMysteryBox() {
-  mysteryBox.style.display = "none";
-}
 /* ---------- MYSTERY BOX SPAWN SYSTEM ---------- */
 
 function showMysteryBox() {
