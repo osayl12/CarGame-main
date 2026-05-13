@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <!-- Cyan neon glow for car body -->
+    <filter id="cyanGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <!-- Magenta glow for wheels -->
+    <filter id="pinkGlow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="0.8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Dark background -->
+  <rect width="32" height="32" rx="5" fill="#0a0a1e"/>
+
+  <!-- Subtle speed-line streaks behind the car -->
+  <rect x="15.2" y="1"  width="1.6" height="5"  rx="0.8" fill="#00ffcc" opacity="0.18"/>
+  <rect x="15.2" y="26" width="1.6" height="5"  rx="0.8" fill="#00ffcc" opacity="0.18"/>
+
+  <!-- ── CAR BODY (top-down racing car) ── -->
+  <!-- Nose narrows to a point at y=4, widens to full body at y=10,
+       stays wide through middle, curves into rear at y=27 -->
+  <path d="
+    M16,4
+    C14.2,4 12.5,5.2 12.5,7.5
+    L11.5,13 L11,21
+    C11,24.5 13,28 16,28
+    C19,28 21,24.5 21,21
+    L20.5,13 L19.5,7.5
+    C19.5,5.2 17.8,4 16,4 Z
+  " fill="#00ffcc" filter="url(#cyanGlow)"/>
+
+  <!-- Windshield (cockpit glass) -->
+  <path d="M14,9 L18,9 L17.5,14 L14.5,14 Z"
+        fill="#0a0a1e" opacity="0.78"/>
+
+  <!-- Cockpit / seat area -->
+  <ellipse cx="16" cy="20.5" rx="2.3" ry="2"
+           fill="#0a0a1e" opacity="0.55"/>
+
+  <!-- Front hood line -->
+  <line x1="14.5" y1="6.5" x2="17.5" y2="6.5"
+        stroke="#0a0a1e" stroke-width="0.8" opacity="0.45"/>
+
+  <!-- ── WHEELS (magenta) ── -->
+  <!-- Front-left  -->
+  <rect x="8.5"  y="8"    width="3" height="4.5" rx="1.5"
+        fill="#ff00bf" filter="url(#pinkGlow)"/>
+  <!-- Front-right -->
+  <rect x="20.5" y="8"    width="3" height="4.5" rx="1.5"
+        fill="#ff00bf" filter="url(#pinkGlow)"/>
+  <!-- Rear-left   -->
+  <rect x="8.5"  y="19.5" width="3" height="4.5" rx="1.5"
+        fill="#ff00bf" filter="url(#pinkGlow)"/>
+  <!-- Rear-right  -->
+  <rect x="20.5" y="19.5" width="3" height="4.5" rx="1.5"
+        fill="#ff00bf" filter="url(#pinkGlow)"/>
+
+  <!-- Wheel hub dots -->
+  <circle cx="10"  cy="10.25" r="0.7" fill="#0a0a1e" opacity="0.6"/>
+  <circle cx="22"  cy="10.25" r="0.7" fill="#0a0a1e" opacity="0.6"/>
+  <circle cx="10"  cy="21.75" r="0.7" fill="#0a0a1e" opacity="0.6"/>
+  <circle cx="22"  cy="21.75" r="0.7" fill="#0a0a1e" opacity="0.6"/>
+</svg>
