@@ -1,18 +1,34 @@
 /* ============================================================
    Velocity Viper — Menu CSS
-   Style: Neon Cyberpunk Racing Arcade
+   Style: Retro-Futurism / Cyberpunk (UI-UX Pro Max)
+   Palette: Neon Blue #0080FF | Hot Pink #FF006E | Cyan #00FFFF
+            Deep Black #1A1A2E | Magenta #ff00bf | Yellow #ffcc00
+   Fonts: Techno Race Italic + Press Start 2P + VT323
    ============================================================ */
 
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+
 :root {
+  /* Core neon palette — from Retro-Futurism style data */
   --cyan:        #00ffcc;
   --magenta:     #ff00bf;
   --yellow:      #ffcc00;
-  --bg-dark:     #050508;
-  --surface:     rgba(8, 8, 20, 0.90);
+  --neon-blue:   #0080ff;
+  --hot-pink:    #ff006e;
+
+  /* Surfaces — #1A1A2E from Retro-Futurism data */
+  --bg-base:     #1a1a2e;
+  --surface:     rgba(14, 14, 36, 0.92);
+
+  /* Glow helpers */
   --glow-magenta: rgba(255, 0, 191, 0.55);
   --glow-cyan:    rgba(0, 255, 204, 0.45);
   --glow-yellow:  rgba(255, 204, 0, 0.50);
-  --ease-out:    cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  /* Motion */
+  --ease-out:       cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --glitch-dur:     0.3s;
+  --scanline-alpha: 0.12;
 }
 
 * {
@@ -32,7 +48,7 @@ body {
   min-height: 100vh;
 }
 
-/* Scanline overlay — classic CRT feel */
+/* ── CRT Scanlines overlay (Retro-Futurism key effect) ─────────────────── */
 body::after {
   content: "";
   position: fixed;
@@ -41,11 +57,41 @@ body::after {
     0deg,
     transparent,
     transparent 2px,
-    rgba(0, 0, 0, 0.07) 2px,
-    rgba(0, 0, 0, 0.07) 4px
+    rgba(0, 0, 0, var(--scanline-alpha)) 2px,
+    rgba(0, 0, 0, var(--scanline-alpha)) 4px
   );
   pointer-events: none;
   z-index: 9999;
+}
+
+/* ── Glitch keyframes (Retro-Futurism / Cyberpunk key effect) ─────────── */
+@keyframes glitchSkew {
+  0%, 90%, 100% { transform: skewX(0deg); filter: none; }
+  92%           { transform: skewX(-4deg); filter: hue-rotate(90deg); }
+  94%           { transform: skewX(3deg);  filter: hue-rotate(-60deg); }
+  96%           { transform: skewX(-2deg); filter: none; }
+}
+
+@keyframes titlePulse {
+  0%, 100% { box-shadow: 0 0 18px var(--glow-magenta), inset 0 0 14px rgba(0,0,0,0.6); }
+  50%       { box-shadow: 0 0 32px var(--magenta), 0 0 60px var(--glow-magenta), inset 0 0 14px rgba(0,0,0,0.6); }
+}
+
+@keyframes goldPulse {
+  0%, 100% { box-shadow: 0 0 14px var(--glow-yellow); }
+  50%       { box-shadow: 0 0 26px rgba(255,204,0,0.75), 0 0 6px var(--yellow); }
+}
+
+@keyframes blink {
+  50% { opacity: 0.2; }
+}
+
+/* ── Reduced-motion: strip animations ─────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* ============================================================
@@ -61,7 +107,7 @@ body::after {
   padding: 24px 16px;
 }
 
-/* Was absolute-positioned — changed to flex child for full responsiveness */
+/* Fixed: was position:absolute with hardcoded coords — now flex child */
 .postion-texts {
   display: flex;
   flex-direction: column;
@@ -76,7 +122,7 @@ body::after {
    ============================================================ */
 
 .text-name {
-  font-family: "Techno Race Italic", sans-serif;
+  font-family: "Techno Race Italic", "Press Start 2P", sans-serif;
   background: var(--surface);
   color: var(--cyan);
   border-radius: 12px;
@@ -84,27 +130,19 @@ body::after {
   font-size: clamp(22px, 5vw, 38px);
   text-align: center;
   letter-spacing: 3px;
-  text-shadow: 0 0 8px var(--cyan), 2px 2px 6px var(--magenta);
+  text-shadow: 0 0 8px var(--cyan), 0 0 18px rgba(0,255,204,0.35), 2px 2px 6px var(--magenta);
   border: 2px solid var(--magenta);
-  box-shadow: 0 0 18px var(--glow-magenta), inset 0 0 14px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 18px var(--glow-magenta), inset 0 0 14px rgba(0,0,0,0.6);
   width: 100%;
-  animation: titlePulse 3s ease-in-out infinite;
+  cursor: default;
+  /* Dual animation: pulse glow + periodic glitch */
+  animation: titlePulse 3s ease-in-out infinite, glitchSkew 6s ease-in-out infinite;
 }
 
 .text-name i {
   margin-right: 12px;
   color: var(--magenta);
   filter: drop-shadow(0 0 6px var(--magenta));
-}
-
-@keyframes titlePulse {
-  0%, 100% {
-    box-shadow: 0 0 18px var(--glow-magenta), inset 0 0 14px rgba(0, 0, 0, 0.6);
-  }
-  50% {
-    box-shadow: 0 0 32px var(--magenta), 0 0 60px var(--glow-magenta),
-                inset 0 0 14px rgba(0, 0, 0, 0.6);
-  }
 }
 
 /* ============================================================
@@ -122,7 +160,7 @@ body::after {
 
 .play-button,
 .reset-button {
-  font-family: "Techno Race Italic", sans-serif;
+  font-family: "Techno Race Italic", "Press Start 2P", sans-serif;
   background: var(--surface);
   color: var(--cyan);
   padding: 16px 32px;
@@ -145,9 +183,9 @@ body::after {
 .play-button:hover,
 .reset-button:hover {
   background: rgba(255, 0, 191, 0.14);
-  box-shadow: 0 0 22px var(--magenta), 0 0 44px var(--glow-magenta);
+  box-shadow: 0 0 24px var(--magenta), 0 0 50px var(--glow-magenta);
   transform: translateY(-2px) scale(1.025);
-  text-shadow: 0 0 12px var(--cyan), 0 0 4px #fff;
+  text-shadow: 0 0 14px var(--cyan), 0 0 4px #fff;
 }
 
 .play-button:active,
@@ -168,14 +206,15 @@ body::after {
    ============================================================ */
 
 #scoreDisplay {
-  font-family: "Techno Race Italic", sans-serif;
+  font-family: "VT323", "Techno Race Italic", monospace;
   background: var(--surface);
   color: var(--cyan);
   padding: 14px 28px;
   border-radius: 10px;
-  font-size: clamp(15px, 2.4vw, 22px);
+  /* VT323 is large — scale down slightly */
+  font-size: clamp(20px, 3vw, 28px);
   text-align: center;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
   text-shadow: 0 0 6px var(--cyan);
   border: 2px solid var(--magenta);
   box-shadow: 0 0 10px var(--glow-magenta);
@@ -183,24 +222,19 @@ body::after {
 }
 
 .best-score {
-  font-family: "Techno Race Italic", sans-serif;
+  font-family: "VT323", "Techno Race Italic", monospace;
   background: var(--surface);
   color: var(--yellow);
   padding: 12px 24px;
   border-radius: 10px;
-  font-size: clamp(15px, 2.4vw, 22px);
+  font-size: clamp(20px, 3vw, 28px);
   text-align: center;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
   text-shadow: 0 0 8px var(--yellow), 0 0 18px var(--glow-yellow);
   border: 2px solid var(--yellow);
   box-shadow: 0 0 14px var(--glow-yellow);
   width: 100%;
   animation: goldPulse 2.5s ease-in-out infinite;
-}
-
-@keyframes goldPulse {
-  0%, 100% { box-shadow: 0 0 14px var(--glow-yellow); }
-  50%       { box-shadow: 0 0 26px rgba(255, 204, 0, 0.75), 0 0 6px var(--yellow); }
 }
 
 /* ============================================================
@@ -213,7 +247,7 @@ body::after {
   background: var(--surface);
   border-radius: 14px;
   border: 2px solid var(--magenta);
-  box-shadow: 0 0 18px var(--glow-magenta), inset 0 0 22px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 0 18px var(--glow-magenta), inset 0 0 22px rgba(0,0,0,0.55);
   padding: 20px 22px;
   display: flex;
   flex-direction: column;
@@ -272,12 +306,13 @@ audio::-webkit-media-controls { display: none; }
 }
 
 .volume-control label {
-  font-family: "Techno Race Italic", sans-serif;
+  font-family: "VT323", monospace;
   color: var(--cyan);
-  font-size: 13px;
+  font-size: 18px;
   white-space: nowrap;
   text-shadow: 0 0 4px var(--cyan);
-  min-width: 64px;
+  min-width: 72px;
+  letter-spacing: 1px;
 }
 
 .custom-volume-slider {
@@ -324,24 +359,26 @@ audio::-webkit-media-controls { display: none; }
 }
 
 .music-select label {
-  font-family: "Techno Race Italic", sans-serif;
+  font-family: "VT323", monospace;
   color: var(--cyan);
-  font-size: 13px;
+  font-size: 18px;
+  letter-spacing: 1px;
   text-shadow: 0 0 4px var(--cyan);
 }
 
 #musicSelect {
-  font-family: "Techno Race Italic", sans-serif;
-  font-size: 13px;
+  font-family: "VT323", monospace;
+  font-size: 16px;
   padding: 10px 14px;
   border: 2px solid var(--magenta);
   border-radius: 8px;
-  background: rgba(5, 5, 15, 0.92);
+  background: rgba(14, 14, 36, 0.95);
   color: var(--cyan);
   cursor: pointer;
   outline: none;
   width: 100%;
   box-shadow: 0 0 8px var(--glow-magenta);
+  letter-spacing: 1px;
   transition: border-color 180ms var(--ease-out),
               box-shadow  180ms var(--ease-out);
 }
@@ -353,11 +390,11 @@ audio::-webkit-media-controls { display: none; }
 }
 
 .music-duration {
-  font-family: "Techno Race Italic", sans-serif;
+  font-family: "VT323", monospace;
   color: rgba(0, 255, 204, 0.55);
-  font-size: 11px;
+  font-size: 16px;
   text-align: right;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
 }
 
 #audioContainer audio { display: none; }
