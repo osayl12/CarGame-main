@@ -1,3 +1,20 @@
+/* ============================================================
+   Velocity Viper — Menu CSS
+   Style: Neon Cyberpunk Racing Arcade
+   ============================================================ */
+
+:root {
+  --cyan:        #00ffcc;
+  --magenta:     #ff00bf;
+  --yellow:      #ffcc00;
+  --bg-dark:     #050508;
+  --surface:     rgba(8, 8, 20, 0.90);
+  --glow-magenta: rgba(255, 0, 191, 0.55);
+  --glow-cyan:    rgba(0, 255, 204, 0.45);
+  --glow-yellow:  rgba(255, 204, 0, 0.50);
+  --ease-out:    cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -6,149 +23,341 @@
 
 @font-face {
   font-family: "Techno Race Italic";
-  src: url("../fonts/techno-race-italic-font/TechnoRaceItalic-eZRWe.otf")
-    format("truetype");
+  src: url("../fonts/techno-race-italic-font/TechnoRaceItalic-eZRWe.otf") format("opentype");
+  font-display: swap;
 }
 
 body {
-  background: url(../gamepics/BG.jpg) center/cover no-repeat fixed;
-  margin: 0;
-  padding: 0;
+  background: url(../gamepics/BG.jpg) center / cover no-repeat fixed;
+  min-height: 100vh;
 }
 
-.postion-texts {
-  position: absolute;
-  left: 30px;
-  top: 100px;
+/* Scanline overlay — classic CRT feel */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.07) 2px,
+    rgba(0, 0, 0, 0.07) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
 }
 
+/* ============================================================
+   LAYOUT
+   ============================================================ */
 
-/*Power Popup*/
-
-/* Menu container */
 .menu-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  min-height: 100vh;
+  padding: 24px 16px;
 }
 
-/* Game name */
+/* Was absolute-positioned — changed to flex child for full responsiveness */
+.postion-texts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  max-width: 460px;
+}
+
+/* ============================================================
+   GAME TITLE
+   ============================================================ */
+
 .text-name {
-  background-color: rgba(0, 0, 0, 0.8);
-  color: #00ffcc;
-  border-radius: 10px;
-  padding: 15px;
-  font-size: 36px;
+  font-family: "Techno Race Italic", sans-serif;
+  background: var(--surface);
+  color: var(--cyan);
+  border-radius: 12px;
+  padding: 18px 28px;
+  font-size: clamp(22px, 5vw, 38px);
   text-align: center;
-  text-shadow: 2px 2px 5px #ff00bf;
-  border: 2px solid #ff00bf;
+  letter-spacing: 3px;
+  text-shadow: 0 0 8px var(--cyan), 2px 2px 6px var(--magenta);
+  border: 2px solid var(--magenta);
+  box-shadow: 0 0 18px var(--glow-magenta), inset 0 0 14px rgba(0, 0, 0, 0.6);
+  width: 100%;
+  animation: titlePulse 3s ease-in-out infinite;
 }
+
 .text-name i {
-  margin-right: 10px;
-  color: #ff00bf;
+  margin-right: 12px;
+  color: var(--magenta);
+  filter: drop-shadow(0 0 6px var(--magenta));
 }
+
+@keyframes titlePulse {
+  0%, 100% {
+    box-shadow: 0 0 18px var(--glow-magenta), inset 0 0 14px rgba(0, 0, 0, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 32px var(--magenta), 0 0 60px var(--glow-magenta),
+                inset 0 0 14px rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* ============================================================
+   MENU ITEM WRAPPER
+   ============================================================ */
 
 .menu-item {
   text-align: center;
-  margin-top: 20px;
+  width: 100%;
 }
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
 
 .play-button,
 .reset-button {
-  background-color: rgba(0, 0, 0, 0.8);
-  color: #00ffcc;
-  padding: 15px 30px;
-  border: none;
+  font-family: "Techno Race Italic", sans-serif;
+  background: var(--surface);
+  color: var(--cyan);
+  padding: 16px 32px;
+  border: 2px solid var(--magenta);
   border-radius: 10px;
   cursor: pointer;
-  font-size: 24px;
+  font-size: clamp(18px, 3.2vw, 24px);
   text-align: center;
-  text-shadow: 2px 2px 5px #ff00bf;
-  margin: 10px 0;
-  border: 2px solid #ff00bf;
-  font-family: "Techno Race Italic";
+  letter-spacing: 1px;
+  text-shadow: 0 0 6px var(--cyan);
+  width: 100%;
+  box-shadow: 0 0 10px var(--glow-magenta);
+  outline: none;
+  transition: transform 200ms var(--ease-out),
+              box-shadow 200ms var(--ease-out),
+              background 200ms var(--ease-out),
+              text-shadow 200ms var(--ease-out);
 }
 
+.play-button:hover,
+.reset-button:hover {
+  background: rgba(255, 0, 191, 0.14);
+  box-shadow: 0 0 22px var(--magenta), 0 0 44px var(--glow-magenta);
+  transform: translateY(-2px) scale(1.025);
+  text-shadow: 0 0 12px var(--cyan), 0 0 4px #fff;
+}
+
+.play-button:active,
+.reset-button:active {
+  transform: translateY(0) scale(0.975);
+  box-shadow: 0 0 8px var(--glow-magenta);
+  transition-duration: 70ms;
+}
+
+.play-button:focus-visible,
+.reset-button:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+/* ============================================================
+   SCORE DISPLAYS
+   ============================================================ */
+
 #scoreDisplay {
-  background-color: rgba(0, 0, 0, 0.8);
-  color: #00ffcc;
-  padding: 15px 30px;
+  font-family: "Techno Race Italic", sans-serif;
+  background: var(--surface);
+  color: var(--cyan);
+  padding: 14px 28px;
   border-radius: 10px;
-  font-size: 24px;
+  font-size: clamp(15px, 2.4vw, 22px);
   text-align: center;
-  text-shadow: 2px 2px 5px #ff00bf;
-  margin: 10px 0;
-  border: 2px solid #ff00bf;
-  font-family: "Techno Race Italic";
+  letter-spacing: 1px;
+  text-shadow: 0 0 6px var(--cyan);
+  border: 2px solid var(--magenta);
+  box-shadow: 0 0 10px var(--glow-magenta);
+  width: 100%;
 }
 
 .best-score {
-  background-color: rgba(0, 0, 0, 0.8);
-  color: #00ffcc;
-  padding: 10px 20px;
-  border-radius: 5px;
-  font-size: 24px;
+  font-family: "Techno Race Italic", sans-serif;
+  background: var(--surface);
+  color: var(--yellow);
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: clamp(15px, 2.4vw, 22px);
   text-align: center;
-  text-shadow: 2px 2px 5px #ff00bf;
-  border: 2px solid #ff00bf;
-  box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
-  font-family: "Techno Race Italic";
+  letter-spacing: 1px;
+  text-shadow: 0 0 8px var(--yellow), 0 0 18px var(--glow-yellow);
+  border: 2px solid var(--yellow);
+  box-shadow: 0 0 14px var(--glow-yellow);
+  width: 100%;
+  animation: goldPulse 2.5s ease-in-out infinite;
 }
+
+@keyframes goldPulse {
+  0%, 100% { box-shadow: 0 0 14px var(--glow-yellow); }
+  50%       { box-shadow: 0 0 26px rgba(255, 204, 0, 0.75), 0 0 6px var(--yellow); }
+}
+
+/* ============================================================
+   AUDIO PLAYER
+   ============================================================ */
 
 .audio-container {
-  color: #00ffcc;
-  position: relative;
   width: 100%;
-  max-width: 400px;
-  margin-top: 20px;
-  background-color: #1e1e1e;
-  border-radius: 10px;
-  border: 2px solid #ff00bf;
-  box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
-  padding: 20px;
+  max-width: 460px;
+  background: var(--surface);
+  border-radius: 14px;
+  border: 2px solid var(--magenta);
+  box-shadow: 0 0 18px var(--glow-magenta), inset 0 0 22px rgba(0, 0, 0, 0.55);
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
+/* Play / pause icon button */
 .custom-play-button {
-  background-color: transparent;
-  border: none;
+  align-self: center;
+  background: transparent;
+  border: 2px solid var(--cyan);
+  border-radius: 50%;
+  width: 54px;
+  height: 54px;
   cursor: pointer;
-  font-size: 32px;
-  color: #00ffcc;
+  font-size: 22px;
+  color: var(--cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px var(--glow-cyan);
+  outline: none;
+  transition: transform 200ms var(--ease-out),
+              box-shadow 200ms var(--ease-out),
+              background 200ms var(--ease-out);
 }
 
 .custom-play-button i {
-  text-shadow: 2px 2px 5px #ff00bf;
+  text-shadow: 0 0 8px var(--cyan);
+  filter: drop-shadow(0 0 4px var(--magenta));
 }
 
-audio::-webkit-media-controls {
-  display: none;
+.custom-play-button:hover {
+  background: rgba(0, 255, 204, 0.12);
+  box-shadow: 0 0 20px var(--cyan), 0 0 10px var(--glow-cyan);
+  transform: scale(1.12);
+}
+
+.custom-play-button:active {
+  transform: scale(0.94);
+  transition-duration: 70ms;
+}
+
+.custom-play-button:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+audio::-webkit-media-controls { display: none; }
+
+/* Volume row */
+.volume-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.volume-control label {
+  font-family: "Techno Race Italic", sans-serif;
+  color: var(--cyan);
+  font-size: 13px;
+  white-space: nowrap;
+  text-shadow: 0 0 4px var(--cyan);
+  min-width: 64px;
+}
+
+.custom-volume-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  flex: 1;
+  height: 6px;
+  background: linear-gradient(90deg, var(--cyan) 0%, var(--magenta) 100%);
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+}
+
+.custom-volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 8px var(--cyan), 0 0 4px var(--magenta);
+  cursor: pointer;
+  transition: transform 180ms var(--ease-out);
+}
+
+.custom-volume-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.25);
+}
+
+.custom-volume-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 8px var(--cyan);
+  cursor: pointer;
+}
+
+/* Music select row */
+.music-select {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.music-select label {
+  font-family: "Techno Race Italic", sans-serif;
+  color: var(--cyan);
+  font-size: 13px;
+  text-shadow: 0 0 4px var(--cyan);
 }
 
 #musicSelect {
-  font-size: 16px;
-  padding: 10px;
-  border: 2px solid #ff00bf;
-  border-radius: 5px;
-  background-color: #1e1e1e;
-  color: #00ffcc;
-  margin: 10px;
+  font-family: "Techno Race Italic", sans-serif;
+  font-size: 13px;
+  padding: 10px 14px;
+  border: 2px solid var(--magenta);
+  border-radius: 8px;
+  background: rgba(5, 5, 15, 0.92);
+  color: var(--cyan);
   cursor: pointer;
-  font-family: "Techno Race Italic";
-}
-
-#audioContainer audio {
+  outline: none;
   width: 100%;
-  max-width: 400px;
-  background-color: #1e1e1e;
-  border: 2px solid #ff00bf;
-  border-radius: 10px;
-}
-.volume-control {
-  margin-top: 10px;
+  box-shadow: 0 0 8px var(--glow-magenta);
+  transition: border-color 180ms var(--ease-out),
+              box-shadow  180ms var(--ease-out);
 }
 
-.music-select {
-  margin-top: 10px;
+#musicSelect:hover,
+#musicSelect:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 14px var(--glow-cyan);
 }
+
+.music-duration {
+  font-family: "Techno Race Italic", sans-serif;
+  color: rgba(0, 255, 204, 0.55);
+  font-size: 11px;
+  text-align: right;
+  letter-spacing: 1px;
+}
+
+#audioContainer audio { display: none; }
