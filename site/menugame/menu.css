@@ -3,7 +3,7 @@
    Style: Retro-Futurism / Cyberpunk (UI-UX Pro Max)
    Palette: Neon Blue #0080FF | Hot Pink #FF006E | Cyan #00FFFF
             Deep Black #1A1A2E | Magenta #ff00bf | Yellow #ffcc00
-   Fonts: Techno Race Italic + Press Start 2P + VT323
+   Fonts: Orbitron (headings) + Press Start 2P + VT323 (labels)
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Press+Start+2P&family=VT323&display=swap');
@@ -200,7 +200,7 @@ body::after {
    ============================================================ */
 
 #scoreDisplay {
-  font-family: "VT323", "Techno Race Italic", monospace;
+  font-family: "VT323", "Orbitron", monospace;
   background: var(--surface);
   color: var(--cyan);
   padding: 14px 28px;
@@ -216,7 +216,7 @@ body::after {
 }
 
 .best-score {
-  font-family: "VT323", "Techno Race Italic", monospace;
+  font-family: "VT323", "Orbitron", monospace;
   background: var(--surface);
   color: var(--yellow);
   padding: 12px 24px;
