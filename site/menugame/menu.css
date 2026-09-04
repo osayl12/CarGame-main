@@ -6,8 +6,6 @@
    Fonts: Orbitron (headings) + Press Start 2P + VT323 (labels)
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Press+Start+2P&family=VT323&display=swap');
-
 :root {
   /* Core neon palette — from Retro-Futurism style data */
   --cyan:        #00ffcc;
@@ -133,7 +131,14 @@ body::after {
   animation: titlePulse 3s ease-in-out infinite, glitchSkew 6s ease-in-out infinite;
 }
 
-.text-name i {
+.icon {
+  display: inline-block;
+  vertical-align: -0.15em;
+}
+
+.text-name .icon-car {
+  width: 0.85em;
+  height: 0.85em;
   margin-right: 12px;
   color: var(--magenta);
   filter: drop-shadow(0 0 6px var(--magenta));
@@ -269,9 +274,10 @@ body::after {
               background 200ms var(--ease-out);
 }
 
-.custom-play-button i {
-  text-shadow: 0 0 8px var(--cyan);
-  filter: drop-shadow(0 0 4px var(--magenta));
+.custom-play-button .icon {
+  width: 22px;
+  height: 22px;
+  filter: drop-shadow(0 0 4px var(--magenta)) drop-shadow(0 0 4px var(--cyan));
 }
 
 .custom-play-button:hover {

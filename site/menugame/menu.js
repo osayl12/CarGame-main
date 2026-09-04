@@ -3,6 +3,9 @@ function startGame() {
 }
 
 function resetGame() {
+  const confirmed = confirm("Reset your best score to 0? This can't be undone.");
+  if (!confirmed) return;
+
   localStorage.setItem("bestScore", "0");
   window.location.href = "menu.html";
 }
@@ -22,16 +25,23 @@ const bestScoreDisplay = document.querySelector(".best-score");
 
 bestScoreDisplay.textContent = `Best Score: ${bestScore || 0}`;
 
+const ICON_PLAY =
+  '<svg class="icon icon-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M8 5v14l11-7z"/></svg>';
+const ICON_PAUSE =
+  '<svg class="icon icon-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>';
+
 function toggleAudio() {
   var audio = document.getElementById("backgroundMusic");
   var playButton = document.getElementById("customPlayButton");
 
   if (audio.paused) {
     audio.play();
-    playButton.innerHTML = '<i class="fas fa-pause"></i>';
+    playButton.innerHTML = ICON_PAUSE;
+    playButton.setAttribute("aria-label", "Pause menu music");
   } else {
     audio.pause();
-    playButton.innerHTML = '<i class="fas fa-play"></i>';
+    playButton.innerHTML = ICON_PLAY;
+    playButton.setAttribute("aria-label", "Play menu music");
   }
 }
 function setVolume() {
